@@ -1,0 +1,99 @@
+<br><br><br>
+
+<div *ngIf="this.loaded==true">
+  <div *ngFor="let item of this.items; let i = index" [attr.data-index]="i" class="d-flex flex-row"
+    style="margin-left: 40px; position: relative;">
+    <div>
+      <img [src]="item['pic']" style="height: 200px; width: 200px; padding:10px; border-radius: 15px;">
+    </div>
+    <div class="row" *ngIf="item['active']=='true'"
+      style="padding:15px; margin:10px; background: rgb(139, 214, 124); width: 100%; margin-right: 50px; border-radius: 8px;">
+      <span style="position: absolute; top: 20px; left: 400px; font-size: 15px;">Product</span>
+      <span style="position: absolute; top: 20px; right: 500px; font-size: 15px;">Quantity</span>
+      <span style="position: absolute; top: 20px; right: 400px; font-size: 15px;">Price</span>
+      <span style="position: absolute; top: 20px; right: 240px; font-size: 15px;">Total</span>
+      <div class="material-icons col-1" id="delicon" style="cursor: pointer; height: 20px;" (click)="deleteFromCart(i)">
+        delete
+      </div>
+      <div class="col-4" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);font-family: 'Baloo Bhaina 2', cursive;">{{item['name']}}</h2>
+      </div>
+      <div class="col-2" style="padding-top:50px; text-align: center;">
+        <h2 style="color: rgb(51, 51, 51);">{{this.quant[i]}}</h2>
+      </div>
+      <div class="col-2" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);">&#8377;{{item['price']}}</h2>
+      </div>
+      <div class="col-3" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);">&#8377;{{this.quant[i]*item['price']}}</h2>
+        <h3 style="color: rgb(51,51,51); position: absolute; bottom: -20px;">Product in stock.</h3>
+        <span style="color: rgb(5, 150, 0); position:absolute; bottom: 0px; left: -15px;" class="material-icons">
+          check
+        </span>
+      </div>
+    </div>
+    <div class="row" *ngIf="item['active']=='false'"
+      style="padding:15px; margin:10px; background: rgb(255, 117, 117); width: 100%; margin-right: 50px; border-radius: 8px;">
+      <span style="position: absolute; top: 20px; left: 400px; font-size: 15px;">Product</span>
+      <span style="position: absolute; top: 20px; right: 500px; font-size: 15px;">Quantity</span>
+      <span style="position: absolute; top: 20px; right: 400px; font-size: 15px;">Price</span>
+      <span style="position: absolute; top: 20px; right: 240px; font-size: 15px;">Total</span>
+      <div class="material-icons col-1" id="delicon" style="cursor: pointer; height: 20px;" (click)="deleteFromCart(i)">
+        delete
+      </div>
+      <div class="col-4" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);font-family: 'Baloo Bhaina 2', cursive;">{{item['name']}}</h2>
+      </div>
+      <div class="col-2" style="padding-top:50px; text-align: center;">
+        <h2 style="color: rgb(51, 51, 51);">{{this.quant[i]}}</h2>
+      </div>
+      <div class="col-2" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);">&#8377;{{item['price']}}</h2>
+      </div>
+      <div class="col-3" style="padding-top:50px;">
+        <h2 style="color: rgb(51, 51, 51);">&#8377;{{this.quant[i]*item['price']}}</h2>
+        <h3 style="color: rgb(51,51,51); position: absolute; bottom: -20px;">Out of stock!</h3>
+        <span style="color: red; position:absolute; bottom: 0px; left: -15px;" class="material-icons">
+          cancel
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="this.items.length!=0">
+    <div class="d-flex flex-row justify-content-between"
+      style="position: relative; float: right; width: 200px; height: 45px; padding:15px; margin:10px; background: rgb(185, 185, 185); margin-right: 50px; border-radius: 8px;">
+      <span style="position: absolute; top: 9px;">
+        <h2>Total:</h2>
+      </span>
+      <span style="position: absolute; right: 40px; font-size: 20px;">&#8377;{{this.total}}</span>
+    </div>
+    <div style="position: relative; float: right; margin: 10px;">
+      <button style="height: 45px;" class="btn btn-warning" (click)="triggercheckout()">
+        <h2>Proceed to Checkout</h2>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="this.items.length==0" style="position: absolute; top:20vh; left:65vh; width: 50%; height: 80vh;">
+    <img src="./../../../../assets/emptycart.png"
+      style="width: 80%; height: 80%;border-radius: 12px; filter: opacity(0.7);">
+  </div>
+</div>
+
+<div *ngIf="this.loaded==false" style="padding: 200px; padding-top: 0px;">
+  <div class="ph-item">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+</div>
