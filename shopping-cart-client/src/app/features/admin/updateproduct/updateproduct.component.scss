@@ -1,0 +1,24 @@
+::ng-deep.mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;
+}
+
+.xlpicarray:hover {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  transition: 400ms;
+}
+
+#addbutton:hover {
+  transform: scale(1.05);
+}

@@ -1,0 +1,357 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background: transparent;">
+  <img id="logo" src="./../../../assets/iconalt.png" routerLink="/core/home" style="height: 40px; width: 40px;">
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
+
+  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn text-light my-2 my-sm-0" style="background-color: #f96c2f;" type="submit">Search</button>
+    </form>
+  </div> -->
+</nav>
+
+<div id="carouselFinal" class="carousel slide d-flex" data-ride="carousel" data-interval="3000" data-pause="false">
+  <div class="signupstepper">
+    <!-- <mat-horizontal-stepper [linear]="true" #stepper class="d-sm-block d-none" -->
+    <mat-horizontal-stepper [linear]="true" #stepper
+      style="background: rgba(0, 0, 0, 0.377); color: white; position: relative;">
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Who are you?</ng-template>
+          <div style="float: right;">
+            <mat-form-field>
+              <mat-label>Name <span style="color: red;">*</span></mat-label>
+              <input matInput type="text" formControlName="name" id="exampleName" aria-describedby="emailHelp"
+                style="width:200px;" autocomplete="off">
+              <mat-error *ngIf="hasError1('name', 'required')">Name is mandatory.</mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput [max]="maxDate" [matDatepicker]="picker" placeholder="Date of Birth"
+                formControlName="dob">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker formControlName="dob" ngDefaultControl (selectedChanged)="onDate($event)">
+              </mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Languages</mat-label>
+              <mat-select formControlName="skills" multiple>
+                <mat-option *ngFor="let skill of skillList" [value]="skill">{{skill}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Phone</mat-label>
+              <input matInput type="text" formControlName="phone" id="phone" aria-describedby="phoneHelp"
+                autocomplete="off">
+              <mat-error *ngIf="firstFormGroup.get('phone').invalid">Phone number can only contain 10 digits.
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <label style="margin-right: 5px;">Already a member? Click </label>
+            <label id="memberalready"> <a routerLink="/core/login" style="color: #f96c2f;"> here </a><label>
+                to login.</label></label>
+          </div>
+          <div>
+            <label>Choose a profile picture.</label>
+            <br><br>
+            <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+            <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="150"
+              height="150" />
+          </div>
+          <br>
+          <div>
+            <mat-radio-group aria-label="Select an option" formControlName="gender" (change)="changeImage()">
+              <mat-radio-button [checked]='true' name="gender" style="margin-right: 10px;" value="Male">Male
+              </mat-radio-button>
+              <mat-radio-button name="gender" style="margin-right: 10px;" value="Female">Female</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div style="margin-bottom:-30px">
+            <button mat-button matStepperNext>Next</button>
+          </div>
+          <br>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Enter credentials.</ng-template>
+          <div style="text-align: center;">
+            <mat-form-field style="margin-top: 20px;">
+              <mat-label>Email <span style="color: red;">*</span></mat-label>
+              <input matInput type="email" formControlName="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+                autocomplete="off">
+              <mat-error *ngIf="hasError2('email', 'required')">Email is mandatory.</mat-error>
+              <mat-error *ngIf="hasError2('email', 'email')">Enter a valid email.</mat-error>
+            </mat-form-field>
+            <small id="emailHelp" class="form-text text-muted" style="margin-left: 47px;">We'll never share your email
+              with
+              anyone else.</small>
+            <mat-form-field>
+              <mat-label>Password <span style="color: red;">*</span></mat-label>
+              <input matInput type="password" formControlName="password" id="exampleInputPassword1">
+              <mat-error *ngIf="hasError2('password', 'required')">Password is mandatory.</mat-error>
+            </mat-form-field>
+            <br><br>
+            <mat-form-field>
+              <mat-label>Re-enter password <span style="color: red;">*</span></mat-label>
+              <input matInput type="password" formControlName="cnfpass" id="exampleConfirmPassword1">
+              <mat-error *ngIf="secondFormGroup.get('cnfpass').invalid">Passwords don't match.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <br>
+          <div style="float: right;">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>Almost done. You can go back to review or click Submit to register.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="submitAll()">Submit</button>
+        </div>
+        <mat-spinner *ngIf="this.loader" style="zoom:0.2; position: absolute; right: 50px; bottom: 50px;"></mat-spinner>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+    <!-- <mat-vertical-stepper [linear]="true" #stepper class="d-block d-sm-none"
+      style="background: rgba(0, 0, 0, 0.377); color: white; margin-top: 200px;">
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup" class="d-flex flex-column">
+          <ng-template matStepLabel>Who are you?</ng-template>
+          <div style="float: right; order: 2;">
+            <mat-form-field>
+              <mat-label>Name <span style="color: red;">*</span></mat-label>
+              <input matInput type="text" formControlName="name" id="exampleName" aria-describedby="emailHelp"
+                style="width:200px;" autocomplete="off">
+              <mat-error *ngIf="hasError1('name', 'required')">Name is mandatory.</mat-error>
+            </mat-form-field>
+            <br>
+            <div>
+              <mat-radio-group aria-label="Select an option" formControlName="gender" (change)="changeImage()">
+                <mat-radio-button [checked]='true' name="gender" style="margin-right: 10px;" value="Male">Male
+                </mat-radio-button>
+                <mat-radio-button name="gender" style="margin-right: 10px;" value="Female">Female</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <br>
+            <mat-form-field>
+              <input matInput [max]="maxDate" [matDatepicker]="picker2" placeholder="Date of Birth"
+                formControlName="dob">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 formControlName="dob" ngDefaultControl (selectedChanged)="onDate($event)">
+              </mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Languages</mat-label>
+              <mat-select formControlName="skills" multiple>
+                <mat-option *ngFor="let skill of skillList" [value]="skill">{{skill}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Phone</mat-label>
+              <input matInput type="text" formControlName="phone" id="phone" aria-describedby="phoneHelp"
+                autocomplete="off">
+              <mat-error *ngIf="firstFormGroup.get('phone').invalid">Phone number can only contain 10 digits.
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <label style="margin-right: 5px;">Already a member? Click </label>
+            <label id="memberalready"> <a routerLink="/core/login" style="color: #f96c2f;"> here </a><label>
+                to login.</label></label>
+            <br>
+            <div style="margin-bottom:-30px">
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+          <div style="order: 1;">
+            <label>Choose a profile picture.</label>
+            <br><br>
+            <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+            <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="150"
+              height="150" />
+          </div>
+          <br>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Enter credentials.</ng-template>
+          <div style="text-align: center;">
+            <mat-form-field style="margin-top: 20px;">
+              <mat-label>Email <span style="color: red;">*</span></mat-label>
+              <input matInput type="email" formControlName="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+                autocomplete="off">
+              <mat-error *ngIf="hasError2('email', 'required')">Email is mandatory.</mat-error>
+              <mat-error *ngIf="hasError2('email', 'email')">Enter a valid email.</mat-error>
+            </mat-form-field>
+            <small id="emailHelp" class="form-text text-muted" style="margin-left: 47px;">We'll never share your email
+              with
+              anyone else.</small>
+            <mat-form-field>
+              <mat-label>Password <span style="color: red;">*</span></mat-label>
+              <input matInput type="password" formControlName="password" id="exampleInputPassword1">
+              <mat-error *ngIf="hasError2('password', 'required')">Password is mandatory.</mat-error>
+            </mat-form-field>
+            <br><br>
+            <mat-form-field>
+              <mat-label>Re-enter password <span style="color: red;">*</span></mat-label>
+              <input matInput type="password" formControlName="cnfpass" id="exampleConfirmPassword1">
+              <mat-error *ngIf="secondFormGroup.get('cnfpass').invalid">Passwords don't match.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <br>
+          <div style="float: right;">
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>Almost done. You can go back to review or click Submit to register.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="submitAll()">Submit</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper> -->
+
+    <!-- <div class="card d-sm-none d-block" style="color:white; background: rgba(0, 0, 0, 0.377);">
+      <form [formGroup]="firstFormGroup">
+        <div>
+          <div>
+            <label>Choose a profile picture.</label>
+            <br><br>
+            <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+            <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="100"
+              height="100" />
+          </div>
+          <mat-form-field>
+            <mat-label>Name <span style="color: red;">*</span></mat-label>
+            <input matInput type="text" formControlName="name" id="exampleName" aria-describedby="emailHelp"
+              style="width:200px;" autocomplete="off">
+            <mat-error *ngIf="hasError1('name', 'required')">Name is mandatory.</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [max]="maxDate" [matDatepicker]="picker" placeholder="Date of Birth" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker formControlName="dob" ngDefaultControl (selectedChanged)="onDate($event)">
+            </mat-datepicker>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Languages</mat-label>
+            <mat-select formControlName="skills" multiple>
+              <mat-option *ngFor="let skill of skillList" [value]="skill">{{skill}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput type="text" formControlName="phone" id="phone" aria-describedby="phoneHelp"
+              autocomplete="off">
+            <mat-error *ngIf="firstFormGroup.get('phone').invalid">Phone number can only contain 10 digits.
+            </mat-error>
+          </mat-form-field>
+          <br>
+          <label style="margin-right: 5px;">Already a member? Click </label>
+          <label id="memberalready"> <a routerLink="/core/login" style="color: #f96c2f;"> here </a><label>
+              to login.</label></label>
+          <button class="btn" style="background-color: #f96c2f; color: white;"></button>
+        </div>
+      </form>
+    </div> -->
+  </div>
+
+
+  <div class="carousel-inner d-lg-block d-none">
+    <div class=" carousel-item active">
+      <img class="d-block w-100" src="./../assets/images1.jpg" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images2.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images3.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images4.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images5.jpg" alt="Third slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images6.jpg" alt="Third slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images7.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="./../assets/images8.jpg" alt="Second slide">
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="content-main"></div> -->
+
+<footer id="fh5co-footer" class="fh5co-bg" role="contentinfo">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row row-pb-md">
+      <div class="col-md-4 fh5co-widget">
+        <h3>A note with love.</h3>
+        <br>
+        <p style="color: rgb(172, 172, 172);">Don't let Corona dampen your spirit. Shop online and let our
+          sanitized
+          delivery drones do the rest.</p>
+        <br>
+      </div>
+      <div class="col-md-8">
+        <h3 style="float: right;">Reach out to us!</h3>
+        <br><br><br>
+        <div class="col-md-12 col-sm-12 col-xs-6 col-lg-12 text-right">
+          <ul class="fh5co-footer-links" style="color: rgb(172,172,172);">
+            <p>
+              <span class="material-icons" style="margin-right: 10px;">
+                location_on
+              </span> New York, NY 10012, US</p>
+            <p>
+              <span class="material-icons" style="margin-right: 10px;">
+                alternate_email
+              </span> anirudh2308@gmail.com</p>
+            <p>
+              <span class="material-icons" style="margin-right: 10px;">
+                phone_iphone
+              </span> +91 8377079414</p>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+    <div class="row copyright">
+      <div class="col-md-12 text-center">
+        <p>
+          <small class="block">&copy; 2020 | All Rights Reserved.</small>
+          <small class="block">Powered by shoppingkart.com</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

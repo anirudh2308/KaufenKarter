@@ -1,0 +1,180 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background: transparent;">
+  <img id="logo" src="./../../../assets/iconalt.png" routerLink="/user/userdash"
+    style="height: 40px; width: 40px; outline: none;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" style="margin-right: 30px;" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <div>
+      <span id="carticon" style="font-size: 40px; color: white; cursor: pointer; outline: none;"
+        routerLink="/user/userdash/cart" class="material-icons">
+        <mat-icon matBadgeColor="warn" matBadge="{{this.cartcount}}" matBadgePosition="above after"></mat-icon>
+        shopping_basket
+      </span>
+    </div>
+    <span class="nav-item dropdown">
+      <a class="nav-link material-icons" id="accountlogo" style="margin-top:-5px;" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <img [src]="this.imgSrc" style="height: 40px; width: 40px; border-radius: 50px;">
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" data-toggle="modal" href="#" data-target="#profModal">Profile</a>
+      </div>
+    </span>
+    <form [formGroup]="searchForm" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-4" formControlName="search" type="search" placeholder="Search"
+        aria-label="Search">
+      <button (click)="search()" style="background-color: #f96c2f; color: white;" class="btn my-2 my-sm-0"
+        type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<mat-drawer-container id="maindrawer" class="example-container" [hasBackdrop]="true">
+  <mat-drawer #drawer mode="over">
+    <button style="margin-left: -10px;" class="btn" (click)="drawer.toggle()" routerLink="/user/userdash/offers">
+      <h1>Home</h1>
+    </button>
+    <button style="margin-left: -10px;" class="btn" routerLink="/user/userdash/products" (click)="drawer.toggle()">
+      <h1>View Catalog</h1>
+    </button>
+    <button style="margin-left: -10px;" class="btn" (click)="drawer.toggle()" routerLink="/user/userdash/pastorders">
+      <h1>Past Orders</h1>
+    </button>
+  </mat-drawer>
+  <mat-drawer-content>
+    <br><br><br><br>
+    <button id="navexpander"
+      style="z-index: 999; position: fixed; background-color: transparent; outline: none; box-shadow: none; color:white; margin-left: -20px;"
+      mat-raised-button (click)="drawer.toggle()"><span class="material-icons">
+        more_vert
+      </span></button>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+
+<div class="modal fade" id="profModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background-color: rgb(77, 77, 77); color: whitesmoke;">
+      <h3 class="modal-title"
+        style="margin-top: 20px; margin-left: 20px; font-size: 20px; font-family: 'Comic Sans MS'; color: orange;"
+        id="myModalLabel">More about you.</h3>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <img [src]="this.userdata['prof']" style="border-radius: 5px;" name="aboutme" width="140" height="140"
+            border="0" class="img-circle">
+          <br><br>
+          <h3 style="font-family: Comic Sans MS;">{{this.userdata["name"]}},
+            {{this.userdata["gender"]}}.</h3>
+        </div>
+        <span *ngIf="this.userdata['skills'].toString()!=''">
+          <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;"><strong>Languages:
+            </strong></span>
+          <br><br>
+          <ul *ngFor="let lang of this.userdata['skills'].toString().split(',')">
+            <li>{{lang}}</li>
+          </ul>
+        </span>
+        <span *ngIf="this.userdata['dob'].toString()!=''">
+          <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;"><strong>Cake-Day:
+            </strong></span>
+          {{this.userdata["dob"]}}
+          <br><br>
+        </span>
+        <span *ngIf="this.userdata['phone'].toString()!=''">
+          <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;"><strong>Phone:
+            </strong></span>
+          {{this.userdata["phone"]}}
+          <br><br>
+        </span>
+        <span style="font-family:Verdana, Geneva, Tahoma, sans-serif;"><strong>Email:
+          </strong></span>
+        {{this.userdata["email"]}}
+      </div>
+      <div class="modal-footer">
+        <div style="text-align: center;">
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newModal"
+            data-dismiss="modal">Update Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background-color: papayawhip; color: black;">
+      <h3 class="modal-title" style="margin-top: 20px; margin-left: 20px; font-size: 20px; color: #003b6f;"
+        id="myModalLabel">Update the fields you want updated.</h3> <!-- tardis blue shade -->
+      <div class="modal-body">
+        <form [formGroup]="updatedform" (ngSubmit)="onUpdate()" class="tab-content" id="myTabContent">
+          <div class="form-group">
+            <div style="float: right; margin-right: 20px;">
+              <label style="margin-left: 20px;">Choose a profile picture.</label>
+              <br><br>
+              <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+              <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="200"
+                height="200" />
+            </div>
+          </div>
+          <mat-label>Can't edit dot-underlined fields.</mat-label>
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput type="text" id="exampleName" formControlName="name" aria-describedby="emailHelp"
+              style="width:200px;" autocomplete="off" [placeholder]="this.userdata['name']">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+              autocomplete="off" [placeholder]="this.userdata['email']">
+            <mat-error *ngIf="hasError('email', 'email')">Enter a valid email.</mat-error>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password" id="exampleInputPassword1">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput type="text" formControlName="phone" id="phone" aria-describedby="phoneHelp"
+              autocomplete="off" [placeholder]="this.userdata['phone']">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Languages</mat-label>
+            <mat-select formControlName="skills" multiple>
+              <mat-option *ngFor="let skill of skillList" [value]="skill">{{skill}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div style="float: right; margin-top: -40px; margin-right: 30px;">
+            <mat-form-field>
+              <mat-label>Gender: {{this.userdata['gender']}}</mat-label>
+              <input matInput [disabled]="true" type="text" id="gender" aria-describedby="phoneHelp" autocomplete="off">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <mat-label>Date of Birth: {{this.userdata['dob']}}</mat-label>
+              <input matInput [disabled]="true" type="text" id="dob" aria-describedby="phoneHelp" autocomplete="off">
+            </mat-form-field>
+          </div>
+          <br>
+          <button type="submit" style="float:left; margin-top: 30px; background-color: rgb(255, 136, 0);" class="btn"
+            id="updatebtn">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

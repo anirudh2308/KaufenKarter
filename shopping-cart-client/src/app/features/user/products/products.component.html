@@ -1,0 +1,206 @@
+<div class="sidenav" style="padding-bottom: 30px;">
+  <button style="outline: none; background-color: white;" mat-button [matMenuTriggerFor]="maincateg">Categories</button>
+
+  <mat-menu #maincateg="matMenu">
+    <ng-container *ngFor="let mainItem of this.temp">
+      <button style="outline: none;" mat-menu-item [matMenuTriggerFor]="sub_menu">{{ mainItem }}</button>
+      <mat-menu #sub_menu="matMenu">
+        <button style="outline: none;" (click)="getBrands(subItem)" *ngFor="let subItem of this.categories[mainItem]"
+          mat-menu-item>{{ subItem }}</button>
+      </mat-menu>
+    </ng-container>
+  </mat-menu>
+  <br><br>
+  <div *ngIf="selectedSubcat!=''">
+    <h4 style="color: white;">You have selected: {{selectedSubcat}}</h4>
+  </div>
+  <h3 style="color: white;">Price Range:</h3>
+  <div style="color: white;">From <br>
+    <mat-slider [(ngModel)]="minrange" style="margin-right: 10px;" #from color="accent" thumbLabel
+      [displayWith]="formatLabel" tickInterval="1000" (change)="filterProducts()" min="0" max="500000">
+    </mat-slider>{{formatLabel(from.value)}}
+  </div>
+  <div style="color: white;">To <br>
+    <mat-slider [(ngModel)]="maxrange" style="margin-right: 10px;" #to color="accent" thumbLabel
+      [displayWith]="formatLabel" tickInterval="1000" (change)="filterProducts()" min="0" max="500000">
+    </mat-slider>{{formatLabel(to.value)}}
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label style="color: white;">
+        Sort by
+      </mat-label>
+      <mat-select>
+        <mat-option (click)="changeSortSelection('None')">
+          None
+        </mat-option>
+        <mat-option (click)="changeSortSelection('price')" value="By Price">
+          By Price
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="this.sortSelection=='price'">
+    <mat-slide-toggle (click)="sortswitch()" style="color: white;">Low-High/High-Low</mat-slide-toggle>
+  </div>
+  <br>
+  <button class="btn btn-warning" (click)="resetAll()">Reset Filters</button>
+  <br>
+  <br>
+  <div *ngIf="temp1.length>0">
+    <h3 style="color: white;">Brands:</h3>
+    <div *ngFor="let brand of temp1; let i=index">
+      <mat-checkbox (click)="filterProductsBrandBased(i)"></mat-checkbox>
+      <mat-label style="color: white; margin-left: 10px; margin-top: -5px;">{{brand}}</mat-label>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="this.loaded==true" class="product">
+  <div *ngFor="let product of filteredList">
+    <mat-card class="productCard">
+      <mat-card-header style="margin-bottom:20px;">
+        <mat-card-title style="font-size: medium;">
+          {{product['name']}}
+        </mat-card-title>
+      </mat-card-header>
+      <div class="pImg">
+        <img mat-card-image [src]="product['pic']" style="cursor: pointer;" (click)="newMessage(product)">
+      </div>
+      <mat-card-content>
+        <div class="price" style="float: left; position: absolute; left: 10px; bottom: 10px;">
+          &#8377; {{product['price']}}
+        </div>
+        <div style="float: right;">
+          <button class="btn" (click)="buyNow(product['id'])"
+            style="background-color: #f96c2f; color: white; position: absolute; right: 10px; bottom: 10px;">Buy
+            Now</button>
+        </div>
+      </mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="this.loaded==false" class="loadinganim" style="margin-left:15%;">
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-item m-4" style="width: 200px; float: right;">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+</div>

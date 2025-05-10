@@ -1,0 +1,155 @@
+.product {
+  margin-left: 16%;
+  padding-left: 10%;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 15%;
+  width: 80%;
+}
+
+// .product {
+//   margin-left: 10%;
+//   display: flex;
+//   flex-wrap: wrap;
+//   position: absolute;
+//   top: 20%;
+// }
+
+.productCard {
+  margin: 10px;
+  height: 300px;
+  width: 200px;
+  background-color: white;
+}
+
+img {
+  height: 150px;
+  width: 150px;
+}
+
+.pImg {
+  display: flex;
+  justify-content: center;
+}
+
+.price {
+  font-size: large;
+  font-weight: bold;
+}
+
+.productCard:hover {
+  transform: .4s;
+  transform: scale(1.03);
+}
+
+
+
+
+
+
+
+.sidenav {
+  height: 100%;
+  /* Full-height: remove this if you want "auto" height */
+  width: 270px;
+  /* Set the width of the sidebar */
+  position: fixed;
+  /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1;
+  /* Stay on top */
+  top: 0;
+  /* Stay at the top */
+  left: 0;
+  background-color: #111;
+  /* Black */
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
+  padding-top: 120px;
+  padding-left: 40px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Style page content */
+.main {
+  margin-left: 160px;
+  /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+::ng-deep.mat-checkbox .mat-checkbox-frame {
+  border-color: white;
+}
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 grey;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(250, 163, 64);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #525252;
+}
+
+::ng-deep .mat-select-value {
+  color: white;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+::ng-deep.mat-select-arrow {
+  color: white !important;
+}
+
+::ng-deep.mat-slide-toggle-bar {
+  background-color: rgb(61, 61, 61) !important;
+}
+
+::ng-deep.mat-slider-thumb {
+  background-color: white !important;
+}
+
+::ng-deep.mat-slider-ticks {
+  background-color: rgb(255, 255, 255) !important;
+}
