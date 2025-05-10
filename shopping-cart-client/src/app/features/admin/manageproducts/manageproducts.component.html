@@ -1,0 +1,66 @@
+<br>
+<div *ngIf="this.loaded==true">
+  <button id="addbutton" style="position: relative; width: 200px; color: white;" class="btn"
+    routerLink="/admin/admindash/newproduct"><span class="material-icons"
+      style="position: absolute; left: 25px; bottom: 7px;">
+      add_circle_outline
+    </span>Add Product</button>
+  <br><br>
+  <span class="badge badge-pill badge-success"
+    style="margin-left:40px;width: 100px; height: 30px; font-size: 10px; padding:10px; ">Active
+    Products</span>
+  <span class="badge badge-pill badge-danger"
+    style="margin-right:40px;width: 100px; height: 30px; font-size: 10px; padding:10px; float: right;">Deleted
+    Products</span>
+
+  <div style="color: rgb(104, 104, 104); position: absolute; top: 170px; left: 520px;">Drag back and forth to
+    activate/deactivate products</div>
+  <div style="margin-left: 20px; color: white; position: absolute; top: 200px;" class="downArrow bounce">
+    <span class="material-icons">
+      settings_ethernet
+    </span>
+  </div>
+
+  <div style="display: flex; margin:40px">
+    <div cdkDropList [cdkDropListData]="activeProducts" (cdkDropListDropped)="drop($event)"
+      [cdkDropListConnectedTo]="otherList" #firstList="cdkDropList" style="width: 50%; padding:20px">
+      <div cdkDrag *ngFor="let product of this.activeProducts;" class="card activecards"
+        (click)="triggerUpdate(product)">
+        <div class="card-body">
+          <p class="card-text">{{product['name']}}</p>
+          <img style="height:200px;width:200px; border-radius: 8px;" *cdkDragPreview [src]="product['pic']"
+            [alt]="product['name']">
+        </div>
+      </div>
+    </div>
+
+    <div cdkDropList style="background: yellow;" [cdkDropListData]="inactiveProducts"
+      (cdkDropListDropped)="drop($event)" [cdkDropListConnectedTo]="firstList" #otherList="cdkDropList"
+      style="width: 50%; padding:20px;">
+      <div cdkDrag *ngFor="let product of this.inactiveProducts" class="card inactivecards">
+        <div class="card-body">
+          <p class="card-text">{{product['name']}}</p>
+          <img style="height:200px;width:200px; border-radius: 8px;" *cdkDragPreview [src]="product['pic']"
+            [alt]="product['name']">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="this.loaded==false" style="padding: 100px;">
+  <div class="ph-item">
+    <div class="ph-col-12">
+      <div class="ph-picture"></div>
+      <div class="ph-row">
+        <div class="ph-col-6 big"></div>
+        <div class="ph-col-4 empty big"></div>
+        <div class="ph-col-2 big"></div>
+        <div class="ph-col-4"></div>
+        <div class="ph-col-8 empty"></div>
+        <div class="ph-col-6"></div>
+        <div class="ph-col-6 empty"></div>
+        <div class="ph-col-12"></div>
+      </div>
+    </div>
+  </div>
+</div>

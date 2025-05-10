@@ -1,0 +1,102 @@
+<div style="color: white;">
+  <form class="d-flex flex-row" [formGroup]="productForm">
+    <div class="justify-content-center align-content-center" style="margin-left: 100px;">
+      <div>
+        <br><br>
+        <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+        <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="250px"
+          height="250px" />
+      </div>
+    </div>
+    <div class="align-content-center" style="float: left; ;margin-left: 100px; margin-top: 50px;">
+      <div>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" id="exampleName" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('name', 'required')">Name is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input matInput type="text" formControlName="price" id="examplePrice" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('price', 'required')">Price is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Quantity</mat-label>
+          <input matInput type="text" formControlName="remaining" id="exampleQuantity" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('remaining', 'required')">Quantity is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-row" style="margin-top:20px">
+        <div>
+          <button class="btn btn-warning" (click)="xlInput.click()">Upload photos</button>
+        </div>
+        <div style="margin-left: 10px;">
+          <button class="btn" style="background-color: rgb(255, 123, 0); color: white;" (click)="addProduct()">Add
+            Product</button>
+        </div>
+      </div>
+      <div style="position: absolute; top: 430px; left: 450px;" *ngIf="this.xlArray.length==0">
+        <h3 style="color: rgb(241, 172, 68);">Upload photos by clicking the yellow button above! <span
+            style="color:rgb(241,172,68); position: absolute; margin-left: 5px;" class="material-icons">
+            emoji_emotions
+          </span></h3>
+      </div>
+    </div>
+    <div style="position: absolute; right: 40px; top: 105px; padding-left:5px;padding-right:5px">
+      <mat-form-field style="width:150px; margin-right: 20px;">
+        <mat-label>Brand</mat-label>
+        <input matInput type="text" formControlName="brand" id="exampleBrand" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('brand', 'required')">Brand is mandatory.</mat-error>
+      </mat-form-field>
+      <mat-form-field style="width:150px; margin-right: 20px;">
+        <mat-label>Category</mat-label>
+        <input matInput type="text" formControlName="category" id="exampleCateg" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('category', 'required')">Category is mandatory.</mat-error>
+      </mat-form-field>
+      <mat-form-field style="width:150px;">
+        <mat-label>Subcategory</mat-label>
+        <input matInput type="text" formControlName="subcategory" id="exampleSubcat" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('subcategory', 'required')">Subcategory is mandatory.</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-chip-list" style="width: 500px;">
+        <mat-chip-list #chipList aria-label="Description">
+          <mat-chip *ngFor="let desc of this.descriptionArray" [removable]="true" (removed)="remove(desc)">
+            {{desc['name']}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Describe your product." [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div>
+  <input style="display:none" type="file" (change)="xlPicInput($event)" #xlInput />
+</div>
+
+<div *ngIf="this.xlArray!=[]">
+  <ul class="items">
+    <li *ngFor="let pic of this.xlArray; let i = index">
+      <div class="bg-img" [style.backgroundImage]="'url('+pic+')'">
+      </div>
+      <a href="#">
+        <div class="content">
+          <h2>{{i+1}}.</h2>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>

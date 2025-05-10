@@ -1,0 +1,97 @@
+<div style="color: white;">
+  <form class="d-flex flex-row" [formGroup]="productForm">
+    <div class="justify-content-center align-content-center" style="margin-left: 100px;">
+      <div>
+        <br><br>
+        <input style="display:none" type="file" (change)="onFileSelected($event)" #fileInput />
+        <img [src]="imgSrc" (click)="fileInput.click()" style="border-radius: 5px;" alt="your image" width="250px"
+          height="250px" />
+        <div style="position: absolute; text-align: center;"
+          *ngIf="this.imgSrc=='./../../../../assets/products/blankproduct.jpg'">
+          Upload a product image.
+        </div>
+      </div>
+    </div>
+    <div class="align-content-center" style="float: left; ;margin-left: 100px; margin-top: 50px;">
+      <div>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" id="exampleName" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('name', 'required')">Name is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input matInput type="text" formControlName="price" id="examplePrice" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('price', 'required')">Price is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Quantity</mat-label>
+          <input matInput type="text" formControlName="remaining" id="exampleQuantity" aria-describedby="emailHelp"
+            style="width:200px;" autocomplete="off">
+          <mat-error *ngIf="hasError('remaining', 'required')">Quantity is mandatory.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="d-flex flex-row" style="margin-top:20px">
+        <div style="margin-left: 10px;">
+          <button class="btn" (click)="updateProduct()" style="background-color:rgb(255, 115, 0); color:white">Update
+            Product</button>
+        </div>
+      </div>
+      <div id="addbutton" style="position: absolute; top: 430px; left: 150px;" (click)="xlInput.click()">
+        <h3 style="color: cadetblue; cursor: pointer;"><span class="material-icons"
+            style="position: absolute; bottom: 20px; left: -30px;">
+            add_a_photo
+          </span>Add/Remove Photos</h3>
+      </div>
+      <div>
+        <input style="display:none" type="file" (change)="xlPicInput($event)" #xlInput />
+      </div>
+    </div>
+    <div style="position: absolute; right: 40px; top: 105px; padding-left:5px;padding-right:5px">
+      <mat-form-field style="width:150px; margin-right: 20px;">
+        <mat-label>Brand</mat-label>
+        <input matInput type="text" formControlName="brand" id="exampleBrand" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('brand', 'required')">Brand is mandatory.</mat-error>
+      </mat-form-field>
+      <mat-form-field style="width:150px; margin-right: 20px;">
+        <mat-label>Category</mat-label>
+        <input matInput type="text" formControlName="category" id="exampleCateg" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('category', 'required')">Category is mandatory.</mat-error>
+      </mat-form-field>
+      <mat-form-field style="width:150px;">
+        <mat-label>Subcategory</mat-label>
+        <input matInput type="text" formControlName="subcategory" id="exampleSubcat" aria-describedby="emailHelp"
+          autocomplete="off">
+        <mat-error *ngIf="hasError('subcategory', 'required')">Subcategory is mandatory.</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-chip-list" style="width: 500px;">
+        <mat-chip-list #chipList aria-label="Description">
+          <mat-chip *ngFor="let desc of this.descriptionArray" [removable]="true" (removed)="remove(desc)">
+            {{desc['name']}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Describe your product." [matChipInputFor]="chipList" [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="d-flex flex-row flex-start flex-wrap" style="position: absolute; bottom: 40px; left: 320px;">
+      <div style="position: relative; cursor: pointer;" *ngFor="let pic of this.xlArray">
+        <img class="xlpicarray" (click)="removePicture(pic)"
+          style="height: 150px; width: 200px; margin-left: 10px; border-radius: 6px;" [src]="pic">
+        <div class="overlay" style="position: absolute; bottom: 57px; left: 95px;"><span class="material-icons">
+            remove_circle
+          </span></div>
+      </div>
+    </div>
+  </form>
+</div>
