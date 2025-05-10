@@ -1,0 +1,32 @@
+.navbar {
+  height: 50px;
+}
+
+#logo:hover {
+  cursor: pointer;
+  animation: updown 1.5s ease infinite;
+
+  @keyframes updown {
+    0% {
+      transform: translateY(-10%);
+    }
+
+    50% {
+      transform: translateY(10%);
+    }
+
+    100% {
+      transform: translateY(-10%);
+    }
+  }
+
+}
+
+#accountlogo:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

@@ -1,0 +1,78 @@
+<div style="margin-left: 50px; color: rgb(206, 206, 206);">
+  <h2 style="font-family: 'Baloo Bhaina 2' , cursive;">Your cart:</h2>
+</div>
+
+<div class="d-flex flex-row">
+  <div class="scrollable"
+    style="margin-left:50px;height: 275px; width: 800px; overflow-y: auto; border-radius: 6px; padding:15px;background: rgba(255, 255, 255, 0.295);">
+    <div class="row" *ngFor="let item of this.items">
+      <div class="col-lg-2">
+        <img style="height:100px;width:100px; margin:10px; border-radius: 6px; filter:brightness(0.8)"
+          [src]="item['pic']">
+      </div>
+      <div class="col-lg-6">
+        <h3
+          style=" margin-top: 50px; margin-left: 20px; color: rgb(255, 255, 255);font-family: 'Baloo Bhaina 2' , cursive;">
+          {{item['name']}}
+        </h3>
+      </div>
+      <div class="col-lg-2">
+        <h3
+          style=" margin-top: 50px; margin-left: 20px; color: rgb(255, 255, 255);font-family: 'Baloo Bhaina 2' , cursive;">
+          {{this.quant[this.items.indexOf(item)]}} item(s)
+        </h3>
+      </div>
+      <div class="col-lg-2">
+        <h3
+          style=" margin-top: 50px; margin-left: 20px; color: rgb(255, 255, 255);font-family: 'Baloo Bhaina 2' , cursive;">
+          &#8377;{{item['price'] * this.quant[this.items.indexOf(item)]}}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="this.addressForm.value.paymentmethod=='Paypal/Netbanking'"
+    style="width: 300px; height: 250px;  overflow-y: auto; margin-left: 70px; margin-top: 40px;">
+    <ngx-paypal style="width: 200px;" [config]="payPalConfig"></ngx-paypal>
+  </div>
+  <div *ngIf="this.addressForm.value.paymentmethod=='Cash on Delivery'"
+    style="width: 300px; height: 250px; margin-left: 120px; margin-top: 40px;">
+    <img src="./../../../../assets/cod.png" style="height: 70%; width: 50%; filter: opacity(0.5);">
+    <h3 style="margin-left:20px; color:white;">Cash on Delivery</h3>
+  </div>
+</div>
+<div class="row" style="margin-left: 50px; margin-top: 20px; width: 900px;">
+  <div class="col-lg-6 d-flex flex-row">
+    <div>
+      <h3 style="color: rgb(116, 116, 116);">Subtotal: &#8377;{{this.subtotal}}</h3>
+      <h3 style="color: rgb(116, 116, 116);">GST: &#8377;{{this.subtotal*0.18}} (18%)</h3>
+      <h3 style="color: rgb(116, 116, 116);">Delivery Charges: &#8377;60</h3>
+    </div>
+    <div>
+      <h2 style="color: rgb(168, 168, 168);">Total: &#8377;{{this.subtotal+this.subtotal*0.18+60}}</h2>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <form [formGroup]="addressForm">
+      <mat-form-field style="width: 300px; color:rgb(206, 206, 206);">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" autocomplete="off" id="addressField">
+        <mat-error *ngIf="addressForm.get('address').invalid">Address is compulsory.
+        </mat-error>
+      </mat-form-field>
+      <mat-radio-group style="color: white; position: absolute; right: 140px; top: 70px;"
+        aria-label="Select payment option" formControlName="paymentmethod">
+        <mat-radio-button [checked]='true' name="paymentmethod" style="margin-right: 10px;" value="Cash on Delivery">
+          Cash on
+          Delivery
+        </mat-radio-button>
+        <mat-radio-button name="paymentmethod" style="margin-right: 10px;" value="Paypal/Netbanking">Paypal/Netbanking
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <button style="height: 45px; position: absolute; right: -250px; bottom:20px;" class="btn btn-warning"
+        (click)="checkout()">
+        <h2>Checkout</h2>
+      </button>
+    </form>
+  </div>
+</div>
